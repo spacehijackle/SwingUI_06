@@ -98,8 +98,6 @@ public class UnderlineLabelRenderer implements LabelRenderer
         int lineY = baselineY + 1;
 
         // 下線を描画 (描画位置と幅は layoutCompoundLabel の結果(textRect)を使用)
-        ////g2.setColor(target.getForeground());
-        ////g2.draw(new Line2D.Double(textRect.x, lineY, textRect.x + textRect.width, lineY));
         g2.setColor(color.get());
         drawLine(g2, textRect.x, lineY, textRect.x + textRect.width, lineY);
         g2.dispose();
