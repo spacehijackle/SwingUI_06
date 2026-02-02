@@ -37,8 +37,6 @@ public class DynamicTextDecoration
 
             VStack.of
             (
-                Spacer.fill(),
-
                 Text.of("Underline Label Test", HorizontalAlignment.Center)
                     .font(new Font("Dialog", Font.PLAIN, 18))
                     .frame(Width.Infinite, Height.of(80))
@@ -94,11 +92,9 @@ public class DynamicTextDecoration
                     Button.of("Blue")
                         .frame(Width.of(80))
                         .onClicked(self -> lineColor.set(Color.blue))
-                ),
-
-                Spacer.fill()
+                )
             )
-            .padding(Horizontal.of(24))
+            .padding(24)
         );
     }
 }
