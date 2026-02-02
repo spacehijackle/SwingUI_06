@@ -31,7 +31,7 @@ public class LineAttribute
      */
     private static LineAttribute from(LabelWT<?> label)
     {
-        return new LineAttribute(LinePattern.Solid.value, label.getForeground());
+        return new LineAttribute(LinePattern.Solid.pattern, label.getForeground());
     }
 
     /**
@@ -52,7 +52,7 @@ public class LineAttribute
         for(LineAttribute attr : attrs)
         {
             if(attr instanceof LineColor)   color   = ((LineColor)attr).color;
-            if(attr instanceof LinePattern) pattern = ((LinePattern)attr).value;
+            if(attr instanceof LinePattern) pattern = ((LinePattern)attr).pattern;
         }
 
         return new LineAttribute(pattern, color);
@@ -72,13 +72,9 @@ public class LineAttribute
         /** 二重線 */
         public static final LinePattern Double = new LinePattern(3);
 
-        /** 線種値 */
-        public final int value;
-
-        private LinePattern(int value)
+        private LinePattern(int pattern)
         {
-            super(value, new Color(0, 0, 0));  // 色はダミー
-            this.value = value;
+            super(pattern, new Color(0, 0, 0));  // 色はダミー
         }
     }
 
