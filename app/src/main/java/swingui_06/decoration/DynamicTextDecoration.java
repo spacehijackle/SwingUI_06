@@ -44,7 +44,9 @@ public class DynamicTextDecoration
                     .frame(Width.Infinite, Height.of(80))
                     .padding(8)
                     .background(Color.white)
-                    .underline(lineStyle, lineColor),
+                    //.underline(lineStyle),  // 線スタイルのみ動的変更
+                    //.underline(lineColor),  // 線カラーのみ動的変更
+                    .underline(lineStyle, lineColor),  // 線スタイル・線カラー両方を動的変更
 
                 Spacer.of(Height.of(8)),
 
