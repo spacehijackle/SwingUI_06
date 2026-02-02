@@ -11,7 +11,6 @@ import com.swingui.front.layout.Spacer;
 import com.swingui.front.layout.VStack;
 import com.swingui.front.text.Text;
 import com.swingui.value.UIValue;
-import com.swingui.value.gap.Symmetry.Horizontal;
 import com.swingui.value.size.UILength.Height;
 import com.swingui.value.size.UILength.Width;
 import com.swingui.widget.text.line.LineStyle;
