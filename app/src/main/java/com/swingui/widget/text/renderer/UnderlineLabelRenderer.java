@@ -1,21 +1,20 @@
 package com.swingui.widget.text.renderer;
 
+import java.awt.BasicStroke;
 import java.awt.FontMetrics;
+import java.awt.geom.Line2D;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Insets;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
-import java.awt.geom.Line2D;
 
 import javax.swing.Icon;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-
 import com.swingui.value.UIValue;
 import com.swingui.widget.text.LabelWT;
-import com.swingui.widget.text.line.LineStyle;
+import com.swingui.widget.text.renderer.LineAttr.LineColor;
+import com.swingui.widget.text.renderer.LineAttr.LineStyle;
 
 /**
  * ラベルの下線レンダラー
@@ -24,18 +23,17 @@ import com.swingui.widget.text.line.LineStyle;
  */
 public class UnderlineLabelRenderer implements LabelRenderer
 {
+    // 線スタイル
     private UIValue<LineStyle> style;
 
-    private UIValue<Color> color;
+    // 線カラー
+    private UIValue<LineColor> color;
 
-    public UnderlineLabelRenderer()
-    {
-        this(UIValue.of(LineStyle.Solid), UIValue.of(Color.BLACK), () -> { });
-    }
-    public UnderlineLabelRenderer(UIValue<LineStyle> style, UIValue<Color> color, Runnable repaint)
+    public UnderlineLabelRenderer(UIValue<LineStyle> style, UIValue<LineColor> color, Runnable repaint)
     {
         this.style = style;
         this.color = color;
+
         this.style.addValueChangeListener(() -> repaint.run());
         this.color.addValueChangeListener(() -> repaint.run());
     }
@@ -98,36 +96,31 @@ public class UnderlineLabelRenderer implements LabelRenderer
         int lineY = baselineY + 1;
 
         // 下線を描画 (描画位置と幅は layoutCompoundLabel の結果(textRect)を使用)
-        g2.setColor(color.get());
+        g2.setColor(color.get().color);
         drawLine(g2, textRect.x, lineY, textRect.x + textRect.width, lineY);
         g2.dispose();
     }
 
+    /**
+     * 線種に応じた下線を描画する。
+     */
     private void drawLine(Graphics2D g2, int x1, int y1, int x2, int y2)
     {
-        switch(style.get())
+        if(style.get() == LineStyle.Solid)
         {
-            case Solid:
-            {
-                g2.setStroke(new BasicStroke(1.0f));
-                g2.draw(new Line2D.Double(x1, y1, x2, y2));
-                break;
-            }
-            case Bold:
-            {
-                g2.setStroke(new BasicStroke(2.0f));
-                g2.draw(new Line2D.Double(x1, y1, x2, y2));
-                break;
-            }
-            case Double:
-            {
-                g2.setStroke(new BasicStroke(1.0f));
-                g2.draw(new Line2D.Double(x1, y1 - 1, x2, y2 - 1));
-                g2.draw(new Line2D.Double(x1, y1 + 1, x2, y2 + 1));
-                break;
-            }
-            default:
-                break;
+            g2.setStroke(new BasicStroke(1.0f));
+            g2.draw(new Line2D.Double(x1, y1, x2, y2));
+        }
+        else if(style.get() == LineStyle.Bold)
+        {
+            g2.setStroke(new BasicStroke(2.0f));
+            g2.draw(new Line2D.Double(x1, y1, x2, y2));
+        }
+        else if(style.get() == LineStyle.Double)
+        {
+            g2.setStroke(new BasicStroke(1.0f));
+            g2.draw(new Line2D.Double(x1, y1 - 1, x2, y2 - 1));
+            g2.draw(new Line2D.Double(x1, y1 + 1, x2, y2 + 1));
         }
     }
 

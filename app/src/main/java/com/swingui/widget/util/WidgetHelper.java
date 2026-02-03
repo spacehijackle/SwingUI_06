@@ -7,6 +7,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JComponent;
 import javax.swing.SwingUtilities;
 
+import com.swingui.value.UIValue;
 import com.swingui.value.gap.AllSidesGap;
 import com.swingui.value.gap.UIGap;
 import com.swingui.value.size.UILength;
@@ -101,5 +102,22 @@ public class WidgetHelper
         }
 
         return target;
+    }
+
+    /**
+     * 指定された値配列をUIValue配列に変換する。
+     * 
+     * @param <E> 任意のクラス型
+     * @param values 変換対象値配列
+     * @return UIValue配列
+     */
+    public static <E> UIValue<E>[] convertToUIValues(E... values)
+    {
+        UIValue<E>[] arryas = new UIValue[values.length];
+        for(int i=0; i<values.length; i++)
+        {
+            arryas[i] = UIValue.of(values[i]);
+        }
+        return arryas;
     }
 }

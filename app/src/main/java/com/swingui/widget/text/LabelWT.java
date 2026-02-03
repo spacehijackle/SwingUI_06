@@ -19,12 +19,12 @@ import com.swingui.value.UIValue;
 import com.swingui.value.gap.UIGap;
 import com.swingui.value.size.UILength;
 import com.swingui.widget.Widget;
-import com.swingui.widget.text.line.LineAttribute;
-import com.swingui.widget.text.line.LineStyle;
-import com.swingui.widget.text.renderer.CrossOutLabelRenderer;
 import com.swingui.widget.text.renderer.LabelRenderer;
+import com.swingui.widget.text.renderer.LineAttr;
+import com.swingui.widget.text.renderer.StrikethroughLabelRenderer;
 import com.swingui.widget.text.renderer.UnderlineLabelRenderer;
-import com.swingui.widget.text.renderer.UnderscoreLabelRenderer;
+import com.swingui.widget.text.renderer.LineAttr.LineColor;
+import com.swingui.widget.text.renderer.LineAttr.LineStyle;
 import com.swingui.widget.util.WidgetHelper;
 
 /**
@@ -271,53 +271,83 @@ public class LabelWT<T> extends JLabel implements Widget<LabelWT<T>>
     /**
      * 下線を引く。
      * 
-     * @apiNote 一時的な実装。いずれ削除予定。
+     * @return 自身のインスタンス
+     */
+    public LabelWT<T> underline()
+    {
+        return underline(UIValue.of(LineStyle.Solid));
+    }
+
+    /**
+     * 下線を引く（動的変更不可）。
      * 
      * @param attrs 線属性
      * @return 自身のインスタンス
      */
-    public LabelWT<T> underscore(LineAttribute... attrs)
+    public LabelWT<T> underline(LineAttr... attrs)
     {
-        LineAttribute attr = LineAttribute.of(this, attrs);
-        rendering(new UnderscoreLabelRenderer(attr));
-        return this;
+        return underline(WidgetHelper.convertToUIValues(attrs));
+    }
+
+    /**
+     * 下線を引く（動的変更可）。
+     * 
+     * @param attrs 線属性
+     * @return 自身のインスタンス
+     */
+    public LabelWT<T> underline(UIValue<? extends LineAttr>... attrs)
+    {
+        // デフォルト属性を作成し、指定された属性で上書き
+        UIValue<LineStyle> style = UIValue.of(LineStyle.Solid);
+        UIValue<LineColor> color = UIValue.of(LineColor.of(getForeground()));
+        for(UIValue<? extends LineAttr> attr : attrs)
+        {
+            if(attr.get() instanceof LineStyle)  style = (UIValue<LineStyle>)attr;
+            if(attr.get() instanceof LineColor)  color = (UIValue<LineColor>)attr;
+        }
+
+        return rendering(new UnderlineLabelRenderer(style, color, () -> repaint()));
     }
 
     /**
      * 打ち消し線を引く。
      * 
-     * @apiNote 一時的な実装。いずれ削除予定。
+     * @return 自身のインスタンス
+     */
+    public LabelWT<T> strikethrough()
+    {
+        return strikethrough(UIValue.of(LineStyle.Solid));
+    }
+
+    /**
+     * 打ち消し線を引く（動的変更不可）。
      * 
      * @param attrs 線属性
      * @return 自身のインスタンス
      */
-    public LabelWT<T> crossOut(LineAttribute... attrs)
+    public LabelWT<T> strikethrough(LineAttr... attrs)
     {
-        LineAttribute attr = LineAttribute.of(this, attrs);
-        rendering(new CrossOutLabelRenderer(attr));
-        return this;
+        return strikethrough(WidgetHelper.convertToUIValues(attrs));
     }
 
     /**
-     * 下線を引く。
+     * 打ち消し線を引く（動的変更可）。
      * 
-     * @param attrs 線属性（{@link LineStyle}, {@link Color}）
+     * @param attrs 線属性
      * @return 自身のインスタンス
      */
-    public LabelWT<T> underline(UIValue<?>... attrs)
+    public LabelWT<T> strikethrough(UIValue<? extends LineAttr>... attrs)
     {
-        UIValue<Color> color = UIValue.of(Color.black);          // デフォルト色
-        UIValue<LineStyle> style = UIValue.of(LineStyle.Solid);  // デフォルト線種
-        for(UIValue<?> attr : attrs)
+        // デフォルト属性を作成し、指定された属性で上書き
+        UIValue<LineStyle> style = UIValue.of(LineStyle.Solid);
+        UIValue<LineColor> color = UIValue.of(LineColor.of(getForeground()));
+        for(UIValue<? extends LineAttr> attr : attrs)
         {
-            // 引数で指定された属性を上書き
-            if(attr.get() instanceof Color)     color = (UIValue<Color>)attr;
-            if(attr.get() instanceof LineStyle) style = (UIValue<LineStyle>)attr;
+            if(attr.get() instanceof LineStyle)  style = (UIValue<LineStyle>)attr;
+            if(attr.get() instanceof LineColor)  color = (UIValue<LineColor>)attr;
         }
 
-        // レンダリング設定
-        rendering(new UnderlineLabelRenderer(style, color, () -> repaint()));
-        return this;
+        return rendering(new StrikethroughLabelRenderer(style, color, () -> repaint()));
     }
 
     /**

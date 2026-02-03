@@ -10,8 +10,8 @@ import com.swingui.front.text.Text;
 import com.swingui.value.gap.Symmetry.Horizontal;
 import com.swingui.value.size.UILength.Height;
 import com.swingui.value.size.UILength.Width;
-import com.swingui.widget.text.line.LineAttribute.LineColor;
-import com.swingui.widget.text.line.LineAttribute.LinePattern;
+import com.swingui.widget.text.renderer.LineAttr.LineColor;
+import com.swingui.widget.text.renderer.LineAttr.LineStyle;
 
 /**
  * 静的にテキスト装飾するサンプル
@@ -36,26 +36,26 @@ public class StaticTextDecoration
                     .frame(Width.Infinite, Height.of(80))
                     .padding(8)
                     .background(Color.white)
-                    .underscore(),
+                    .underline(),
 
                 Text.of("Underline Label Test", HorizontalAlignment.Center)
                     .frame(Width.Infinite, Height.of(80))
                     .padding(8)
                     .background(Color.white)
-                    .underscore(LinePattern.Bold),
+                    .underline(LineStyle.Bold),
 
                 Text.of("Underline Label Test", HorizontalAlignment.Trailing)
                     .frame(Width.Infinite, Height.of(80))
                     .padding(8)
                     .background(Color.white)
-                    .underscore(LinePattern.Double, LineColor.of(Color.red)),
+                    .underline(LineStyle.Double, LineColor.of(Color.red)),
 
                 Text.of("Strikethrough & Underline Label Test", HorizontalAlignment.Center)
                     .frame(Width.Infinite, Height.of(80))
                     .padding(8)
                     .background(Color.white)
-                    .crossOut(LinePattern.Double, LineColor.of(Color.red))
-                    .underscore(LineColor.of(Color.blue), LinePattern.Bold),
+                    .strikethrough(LineStyle.Double, LineColor.of(Color.red))
+                    .underline(LineColor.of(Color.blue), LineStyle.Bold),
 
                 Spacer.fill()
             )

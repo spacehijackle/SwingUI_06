@@ -11,23 +11,31 @@ import java.awt.geom.Line2D;
 
 import javax.swing.Icon;
 
+import com.swingui.value.UIValue;
 import com.swingui.widget.text.LabelWT;
-import com.swingui.widget.text.line.LineAttribute;
-import com.swingui.widget.text.line.LineAttribute.LinePattern;
+import com.swingui.widget.text.renderer.LineAttr.LineColor;
+import com.swingui.widget.text.renderer.LineAttr.LineStyle;
 
 /**
  * ラベルの打ち消し線レンダラー
  * 
  * @author t.yoshida
  */
-public class CrossOutLabelRenderer implements LabelRenderer
+public class StrikethroughLabelRenderer implements LabelRenderer
 {
-    // 線属性
-    private LineAttribute attr;
+    // 線スタイル
+    private UIValue<LineStyle> style;
 
-    public CrossOutLabelRenderer(LineAttribute attr)
+    // 線カラー
+    private UIValue<LineColor> color;
+
+    public StrikethroughLabelRenderer(UIValue<LineStyle> style, UIValue<LineColor> color, Runnable repaint)
     {
-        this.attr = attr;
+        this.style = style;
+        this.color = color;
+
+        this.style.addValueChangeListener(() -> repaint.run());
+        this.color.addValueChangeListener(() -> repaint.run());
     }
 
     @Override
@@ -87,7 +95,7 @@ public class CrossOutLabelRenderer implements LabelRenderer
         int lineY = textRect.y + (int)(fm.getHeight() / 2.0f);
 
         // 前景色で打ち消し線を描画 (描画位置と幅は layoutCompoundLabel の結果(textRect)を使用)
-        g2.setColor(attr.color);
+        g2.setColor(color.get().color);
         drawLine(g2, textRect.x, lineY, textRect.x + textRect.width, lineY);
         g2.dispose();
     }
@@ -97,17 +105,17 @@ public class CrossOutLabelRenderer implements LabelRenderer
      */
     private void drawLine(Graphics2D g2, int x1, int y1, int x2, int y2)
     {
-        if(attr.pattern == LinePattern.Solid.pattern)
+        if(style.get() == LineStyle.Solid)
         {
             g2.setStroke(new BasicStroke(1.0f));
             g2.draw(new Line2D.Double(x1, y1, x2, y2));
         }
-        else if(attr.pattern == LinePattern.Bold.pattern)
+        else if(style.get() == LineStyle.Bold)
         {
             g2.setStroke(new BasicStroke(2.0f));
             g2.draw(new Line2D.Double(x1, y1, x2, y2));
         }
-        else if(attr.pattern == LinePattern.Double.pattern)
+        else if(style.get() == LineStyle.Double)
         {
             g2.setStroke(new BasicStroke(1.0f));
             g2.draw(new Line2D.Double(x1, y1 - 1, x2, y2 - 1));
@@ -116,5 +124,9 @@ public class CrossOutLabelRenderer implements LabelRenderer
     }
 
     @Override
-    public void dispose() { }
+    public void dispose()
+    {
+        style = UIValue.of(null);
+        color = UIValue.of(null);
+    }
 }

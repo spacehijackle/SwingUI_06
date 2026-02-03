@@ -13,7 +13,8 @@ import com.swingui.front.text.Text;
 import com.swingui.value.UIValue;
 import com.swingui.value.size.UILength.Height;
 import com.swingui.value.size.UILength.Width;
-import com.swingui.widget.text.line.LineStyle;
+import com.swingui.widget.text.renderer.LineAttr.LineColor;
+import com.swingui.widget.text.renderer.LineAttr.LineStyle;
 
 /**
  * 動的にテキスト装飾するサンプル
@@ -26,7 +27,7 @@ public class DynamicTextDecoration
     private UIValue<LineStyle> lineStyle = UIValue.of(LineStyle.Solid);
 
     // 線カラー
-    private UIValue<Color> lineColor = UIValue.of(Color.BLACK);
+    private UIValue<LineColor> lineColor = UIValue.of(LineColor.of(Color.BLACK));
 
     public void test()
     {
@@ -82,15 +83,15 @@ public class DynamicTextDecoration
                 (
                     Button.of("Black")
                         .frame(Width.of(80))
-                        .onClicked(self -> lineColor.set(Color.black)),
+                        .onClicked(self -> lineColor.set(LineColor.of(Color.black))),
 
                     Button.of("Red")
                         .frame(Width.of(80))
-                        .onClicked(self -> lineColor.set(Color.red)),
+                        .onClicked(self -> lineColor.set(LineColor.of(Color.red))),
 
                     Button.of("Blue")
                         .frame(Width.of(80))
-                        .onClicked(self -> lineColor.set(Color.blue))
+                        .onClicked(self -> lineColor.set(LineColor.of(Color.blue)))
                 )
             )
             .padding(24)
