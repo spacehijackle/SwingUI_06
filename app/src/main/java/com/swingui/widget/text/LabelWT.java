@@ -9,7 +9,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
@@ -24,7 +23,6 @@ import com.swingui.widget.text.renderer.LabelRenderer;
 import com.swingui.widget.text.renderer.LineAttr;
 import com.swingui.widget.text.renderer.StrikethroughLabelRenderer;
 import com.swingui.widget.text.renderer.UnderlineLabelRenderer;
-import com.swingui.widget.text.renderer.LineAttr.LineColor;
 import com.swingui.widget.text.renderer.LineAttr.LineStyle;
 import com.swingui.widget.util.WidgetHelper;
 
@@ -298,7 +296,7 @@ public class LabelWT<T> extends JLabel implements Widget<LabelWT<T>>
      */
     public LabelWT<T> underline(UIValue<? extends LineAttr>... attrs)
     {
-        /*↓処理を外だし
+        /*↓処理を外出ししたためコメントアウト
         // デフォルト属性を作成し、指定された属性で上書き
         UIValue<LineStyle> style = UIValue.of(LineStyle.Solid);
         UIValue<LineColor> color = UIValue.of(LineColor.of(getForeground()));

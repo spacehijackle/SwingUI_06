@@ -1,8 +1,6 @@
 package com.swingui.widget.text.renderer;
 
 import java.awt.Color;
-import java.util.HashMap;
-import java.util.Map;
 
 import com.swingui.value.UIValue;
 import com.swingui.widget.text.LabelWT;
