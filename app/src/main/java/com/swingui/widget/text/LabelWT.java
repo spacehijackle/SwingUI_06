@@ -9,6 +9,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
@@ -297,16 +298,19 @@ public class LabelWT<T> extends JLabel implements Widget<LabelWT<T>>
      */
     public LabelWT<T> underline(UIValue<? extends LineAttr>... attrs)
     {
+        /*↓処理を外だし
         // デフォルト属性を作成し、指定された属性で上書き
         UIValue<LineStyle> style = UIValue.of(LineStyle.Solid);
         UIValue<LineColor> color = UIValue.of(LineColor.of(getForeground()));
         for(UIValue<? extends LineAttr> attr : attrs)
         {
-            if(attr.get() instanceof LineStyle)  style = (UIValue<LineStyle>)attr;
-            if(attr.get() instanceof LineColor)  color = (UIValue<LineColor>)attr;
+            if(attr.get() instanceof LineStyle) style = (UIValue<LineStyle>)attr;
+            if(attr.get() instanceof LineColor) color = (UIValue<LineColor>)attr;
         }
+        return rendering(new UnderlineLabelRenderer(style, color, () -> repaint()));*/
 
-        return rendering(new UnderlineLabelRenderer(style, color, () -> repaint()));
+        LineAttr.Fields fields = LineAttr.Fields.of(this, attrs);
+        return rendering(new UnderlineLabelRenderer(fields.style, fields.color, () -> repaint()));
     }
 
     /**
@@ -338,16 +342,8 @@ public class LabelWT<T> extends JLabel implements Widget<LabelWT<T>>
      */
     public LabelWT<T> strikethrough(UIValue<? extends LineAttr>... attrs)
     {
-        // デフォルト属性を作成し、指定された属性で上書き
-        UIValue<LineStyle> style = UIValue.of(LineStyle.Solid);
-        UIValue<LineColor> color = UIValue.of(LineColor.of(getForeground()));
-        for(UIValue<? extends LineAttr> attr : attrs)
-        {
-            if(attr.get() instanceof LineStyle)  style = (UIValue<LineStyle>)attr;
-            if(attr.get() instanceof LineColor)  color = (UIValue<LineColor>)attr;
-        }
-
-        return rendering(new StrikethroughLabelRenderer(style, color, () -> repaint()));
+        LineAttr.Fields fields = LineAttr.Fields.of(this, attrs);
+        return rendering(new StrikethroughLabelRenderer(fields.style, fields.color, () -> repaint()));
     }
 
     /**
