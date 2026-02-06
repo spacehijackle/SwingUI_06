@@ -54,10 +54,10 @@ public interface LineAttr
     public static class Fields
     {
         /** 線スタイル */
-        public UIValue<LineStyle> style;
+        public final UIValue<LineStyle> style;
 
         /** 線カラー */
-        public UIValue<LineColor> color;
+        public final UIValue<LineColor> color;
 
         private Fields(UIValue<LineStyle> style, UIValue<LineColor> color)
         {
