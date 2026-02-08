@@ -285,7 +285,7 @@ public class LabelWT<T> extends JLabel implements Widget<LabelWT<T>>
      */
     public LabelWT<T> underline(LineAttr... attrs)
     {
-        return underline(WidgetHelper.convertToUIValues(attrs));
+        return underline(WidgetHelper.wrapInUIValues(attrs));
     }
 
     /**
@@ -329,7 +329,7 @@ public class LabelWT<T> extends JLabel implements Widget<LabelWT<T>>
      */
     public LabelWT<T> strikethrough(LineAttr... attrs)
     {
-        return strikethrough(WidgetHelper.convertToUIValues(attrs));
+        return strikethrough(WidgetHelper.wrapInUIValues(attrs));
     }
 
     /**

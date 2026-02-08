@@ -111,7 +111,7 @@ public class WidgetHelper
      * @param values 変換対象値配列
      * @return UIValue配列
      */
-    public static <E> UIValue<E>[] convertToUIValues(E... values)
+    public static <E> UIValue<E>[] wrapInUIValues(E... values)
     {
         UIValue<E>[] arryas = new UIValue[values.length];
         for(int i=0; i<values.length; i++)
