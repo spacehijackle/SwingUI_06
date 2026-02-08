@@ -34,6 +34,7 @@ public class UnderlineLabelRenderer implements LabelRenderer
         this.style = style;
         this.color = color;
 
+        // 線種に変更があった際にラベルの再描画するよう、リスナーの設定
         this.style.addValueChangeListener(() -> repaint.run());
         this.color.addValueChangeListener(() -> repaint.run());
     }
